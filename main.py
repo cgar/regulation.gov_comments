@@ -10,7 +10,7 @@ def getComments(SECRET_KEY):
     # criteria: results per page = 100, sort order = DESCending,
     # sort by = Posted Date and keyword = florida
     urlPartOne = "https://api.data.gov/regulations/v3/documents.json?api_key="
-    urlPartTwo = "&rpp=100&so=DESC&sb=postedDate&s=florida"
+    urlPartTwo = "&rpp=1&so=DESC&sb=postedDate&s=florida"
     url = urlPartOne + SECRET_KEY + urlPartTwo
     response = requests.get(url)
     response.raise_for_status()

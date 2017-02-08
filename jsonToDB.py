@@ -7,8 +7,8 @@ from json import JSONDecoder
 from functools import partial
 
 # Start database connection
-# conn = sqlite3.connect('data.db')
-# c = conn.cursor()
+conn = sqlite3.connect('data.db')
+c = conn.cursor()
 
 # Fix JSON Decode Error: Extra data
 def json_parse(fileobj, decoder=JSONDecoder(), buffersize=2048):
@@ -26,7 +26,58 @@ def json_parse(fileobj, decoder=JSONDecoder(), buffersize=2048):
 
 with open('comments.json', 'r') as infh:
     for data in json_parse(infh):
-        print(type(data))
+        agencyAcronym       = data.get('agencyAcronym')
+        allowLateComment    = data.get('allowLateComment')
+        attachmentCount     = data.get('attachmentCount')
+        commentDueDate      = data.get('commentDueDate')
+        commentStartDate    = data.get('commentStartDate')
+        commentText         = data.get('commentText')
+        docketId            = data.get('docketID')
+        docketTitle         = data.get('docketTitle')
+        docketType          = data.get('docketType')
+        documentId          = data.get('documentId')
+        documentStatus      = data.get('documentStatus')
+        documentType        = data.get('documentType')
+        numberOfCommentsReceived    = data.get('numberOfCommentsReceived')
+        openForComment      = data.get('openForComment')
+        organization        = data.get('organization')
+        postedDate          = data.get('postedDate')
+        rin                 = data.get('rin')
+        submitterName       = data.get('submitterName')
+        summary             = data.get('summary')
+        title               = data.get('title')
+        frNumber            = data.get('frNumber')
+        totalNumRecords     = data.get('totalNumRecords')
+        c.execute('''INSERT INTO regulations (
+        agencyAcronym,
+        allowLateComment,
+        attachmentCount,
+        commentDueDate,
+        commentStartDate,
+        commentText,
+        docketId,
+        docketTitle,
+        docketType,
+        documentId,
+        documentStatus,
+        documentType,
+        numberOfCommentsReceived,
+        openForComment,
+        organization,
+        postedDate,
+        rin,
+        submitterName,
+        summary,
+        title,
+        frNumber,
+        totalNumRecords) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)''',
+            (agencyAcronym, allowLateComment, attachmentCount, commentDueDate,
+            commentStartDate, commentText, docketId, docketTitle, docketType,
+            documentId, documentStatus, documentType, numberOfCommentsReceived,
+            openForComment, organization, postedDate, rin, submitterName,
+            summary, title, frNumber, totalNumRecords))
+
+
 
 # Market Hub Prices
 # with open('comments.json', 'r') as infh:
@@ -45,8 +96,8 @@ with open('comments.json', 'r') as infh:
 #         c.execute('INSERT INTO Amarr (Amarr_Buy, Amarr_Sell, Volume) VALUES (?, ?, ?)',
 #                 (buy, sell, vol))
 #
-# # Save (commit) the changes
-# conn.commit()
-#
-# # Close the connection
-# conn.close()
+# Save (commit) the changes
+conn.commit()
+
+# Close the connection
+conn.close()

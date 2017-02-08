@@ -1,7 +1,6 @@
 from settings import SECRET_KEY
 
 
-import os
 import json
 import requests
 

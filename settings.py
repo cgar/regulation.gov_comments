@@ -1,3 +1,5 @@
+# Secret key resides in an .env file.
+# KEEP IT SAFE!!!
 from decouple import config
 
 

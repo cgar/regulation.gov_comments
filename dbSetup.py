@@ -2,7 +2,6 @@
 # Creates the necessary sqlite database/tables for the regulation comments.
 
 import sqlite3
-import json
 
 conn = sqlite3.connect('data.db')
 c = conn.cursor()

@@ -1,7 +1,9 @@
-1 - Pythonize the for loop within jsonToDB.
+- Pythonize the for loop within jsonToDB.
 
-2 - asyncIO and/or multiple threads?
+- asyncIO and/or multiple threads?
 
-3 - Sentiment analysis
+- Sentiment analysis
 
-4 - Front End interface
+- Front End interface
+
+- Fix .json document object from download

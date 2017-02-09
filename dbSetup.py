@@ -28,8 +28,7 @@ c.execute('''CREATE TABLE regulations (
     `submitterName` VARCHAR(26),
     `summary` VARCHAR(284),
     `title` VARCHAR(296),
-    `frNumber` VARCHAR(10),
-    `totalNumRecords` INT)''')
+    `frNumber` VARCHAR(10))''')
 
 # Save (commit) the changes
 conn.commit()

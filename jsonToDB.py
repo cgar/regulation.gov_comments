@@ -3,28 +3,11 @@
 # corresponding database table/columns.
 
 import sqlite3
-from json import JSONDecoder
-from functools import partial
+from main import json_parse
 
 # Start database connection
 conn = sqlite3.connect('data.db')
 c = conn.cursor()
-
-
-# Fix JSON Decode Error: Extra data
-def json_parse(fileobj, decoder=JSONDecoder(), buffersize=2048):
-    buffer = ''
-    for chunk in iter(partial(fileobj.read, buffersize), ''):
-        buffer += chunk
-        while buffer:
-            try:
-                result, index = decoder.raw_decode(buffer)
-                yield result
-                buffer = buffer[index:]
-            except ValueError:
-                # Not enough data to decode, read more
-                break
-
 
 with open('comments.json', 'r') as infh:
     for data in json_parse(infh):
@@ -49,7 +32,6 @@ with open('comments.json', 'r') as infh:
         summary = data.get('summary')
         title = data.get('title')
         frNumber = data.get('frNumber')
-        totalNumRecords = data.get('totalNumRecords')
         c.execute('''INSERT INTO regulations (
         agencyAcronym,
         allowLateComment,
@@ -71,14 +53,12 @@ with open('comments.json', 'r') as infh:
         submitterName,
         summary,
         title,
-        frNumber,
-        totalNumRecords) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        frNumber) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
         ''', (agencyAcronym, allowLateComment, attachmentCount, commentDueDate,
               commentStartDate, commentText, docketId, docketTitle, docketType,
               documentId, documentStatus, documentType,
               numberOfCommentsReceived, openForComment, organization,
-              postedDate, rin, submitterName, summary, title, frNumber,
-              totalNumRecords))
+              postedDate, rin, submitterName, summary, title, frNumber))
 
 # Save (commit) the changes
 conn.commit()

@@ -2,7 +2,6 @@
 # Downloads latest regulation comments with the keyword 'Florida'.
 from settings import SECRET_KEY
 from functools import partial
-from json import JSONDecoder
 
 
 import re

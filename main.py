@@ -2,6 +2,7 @@
 # Downloads latest regulation comments with the keyword 'Florida'.
 from settings import SECRET_KEY
 from functools import partial
+from json import JSONDecoder
 
 
 import re
@@ -34,10 +35,8 @@ def getComments(SECRET_KEY):
     response = requests.get(url)
     response.raise_for_status()
     commentData = json.loads(response.text)
-    mo = re.sub(r"\{'documents':\s\[", '', str(commentData))
-    mo = re.sub(r"\],\s'totalNumRecords':\s\d*\}", '', mo)
     with open('comments.json', 'w') as fp:
-        fp.write(mo)
+        json.dump(commentData, fp)
     fp.close()
 
 

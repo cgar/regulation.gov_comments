@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-# Parses the downloaded .json file and inserts each regulation into the
-# corresponding kbase table/columns.
+# Parses the downloaded .json file and inserts each regulation/comment into
+# the corresponding database table/columns.
 
 import sqlite3
 import json

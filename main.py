@@ -6,7 +6,6 @@ from json import JSONDecoder
 
 
 import re
-import ast
 import json
 import requests
 
@@ -31,27 +30,16 @@ def getComments(SECRET_KEY):
     # criteria: results per page = 100, sort order = DESCending,
     # sort by = Posted Date and keyword = florida
     urlPartOne = "https://api.data.gov/regulations/v3/documents.json?api_key="
-    urlPartTwo = "&rpp=1&so=DESC&sb=postedDate&s=florida"
+    urlPartTwo = "&rpp=100&so=DESC&sb=postedDate&s=florida"
     url = urlPartOne + SECRET_KEY + urlPartTwo
     response = requests.get(url)
     response.raise_for_status()
     commentData = json.loads(response.text)
+    mo = re.sub(r"\{'documents':\s\[", '', str(commentData))
+    mo = re.sub(r"\],\s'totalNumRecords':\s\d*\}", '', mo)
     with open('comments.json', 'w') as fp:
-        json.dump(commentData, fp)
+        fp.write(mo)
     fp.close()
 
-def fixJson():
-    with open('comments.json', 'r') as fp:
-        for data in json_parse(fp): # data is a dict
-            mo = re.sub(r"\{'documents':\s\[", '', str(data))
-            mo = re.sub(r"\],\s'totalNumRecords':\s\d*\}", '', mo)
-    fp.close()
-
-    mo1 = ast.literal_eval(mo)
-
-    with open('comments.json', 'w') as fp:
-        json.dump(mo1, fp)
-    fp.close()
 
 getComments(SECRET_KEY)
-fixJson()
